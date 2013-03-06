@@ -88,7 +88,7 @@ SET(${PROJECT_NAME}_CXXFLAGS "")
 
 #Configure and install LibraryConfig.cmake.in
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/LibraryConfig.cmake.in
-  "${PROJECT_BINARY_DIR}/MatcherConfig.cmake" )
+  "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" )
 
 INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
 	DESTINATION ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}
