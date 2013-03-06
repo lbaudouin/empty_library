@@ -29,7 +29,7 @@ OPTION(INSTALL_BINARIES "Install binaries." FALSE)
 OPTION(ENABLE_TEST "Enable test" FALSE)
 
 #Include directories
-include_directories ( ${CMAKE_SOURCE_DIR}/include/ )
+include_directories( ${CMAKE_SOURCE_DIR}/include/ )
 
 #Set sources files
 file(GLOB ${PROJECT_NAME}_SRCS src/*.cpp) 
@@ -37,7 +37,7 @@ file(GLOB ${PROJECT_NAME}_SRCS src/*.cpp)
 #Set headers files
 file(GLOB ${PROJECT_NAME}_HDRS include/*.h)
 
-#Build libray
+#Build library
 IF(BUILD_SHARED_LIBRARY)
   add_library ( ${PROJECT_NAME} SHARED ${${PROJECT_NAME}_SRCS})
 ELSE(BUILD_SHARED_LIBRARY)
@@ -47,15 +47,21 @@ ENDIF(BUILD_SHARED_LIBRARY)
 LINK_DIRECTORIES( ${PROJECT_BINARY_DIR} )
 
 #Build binaries
-ADD_SUBDIRECTORY(bin)
+IF(EXISTS ${CMAKE_SOURCE_DIR}/bin)
+  ADD_SUBDIRECTORY(bin)
+ENDIF()
 
 #Build tests
-ADD_SUBDIRECTORY(test)
+IF(EXISTS ${CMAKE_SOURCE_DIR}/test)
+  ADD_SUBDIRECTORY(test)
+ENDIF()
 
 #Build unit testing
 IF(ENABLE_TEST)
   ENABLE_TESTING()
-  ADD_SUBDIRECTORY(unitTesting)
+  IF(EXISTS ${CMAKE_SOURCE_DIR}/unitTesting)
+    ADD_SUBDIRECTORY(unitTesting)
+  ENDIF()
 ENDIF(ENABLE_TEST)
 
 #Install headers
@@ -74,12 +80,14 @@ INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJEC
 IF(INSTALL_BINARIES)
   OPTION(INSTALL_COMPLETE "Install completion files." FALSE)
   IF(INSTALL_COMPLETE)
-    SET(COMPLETION_DIR /etc/bash_completion.d/ CACHE PATH "Completion folder")
-    file(GLOB Matcher_COMPLETE complete/*.sh)
-    INSTALL(FILES ${Matcher_COMPLETE}
+    IF(EXISTS ${CMAKE_SOURCE_DIR}/complete)
+      SET(COMPLETION_DIR /etc/bash_completion.d/ CACHE PATH "Completion folder")
+      file(GLOB ${PROJECT_NAME}_COMPLETE complete/*.sh)
+      INSTALL(FILES ${${PROJECT_NAME}_COMPLETE}
 	DESTINATION ${COMPLETION_DIR}
         PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE
-    )
+      )
+    ENDIF()
   ENDIF(INSTALL_COMPLETE)
 ENDIF(INSTALL_BINARIES)
 
