@@ -12,9 +12,18 @@
 # received a copy of the GNU Lesser General Public License along with
 # software. If not, see <http://www.gnu.org/licenses/>.
 
-#MyExecutable
-ADD_EXECUTABLE(MyExecutable
-	main.cpp
+#TestTrue
+ADD_EXECUTABLE(TestTrue
+	TestTrue.cpp
 )
-TARGET_LINK_LIBRARIES(MyExecutable -l${PROJECT_NAME})
+TARGET_LINK_LIBRARIES( TestTrue -l${PROJECT_NAME})
 
+ADD_TEST(TestTrue TestTrue)
+
+#TestFalse
+ADD_EXECUTABLE(TestFalse
+	TestFalse.cpp
+)
+TARGET_LINK_LIBRARIES( TestFalse -l${PROJECT_NAME})
+
+ADD_TEST(TestFalse TestFalse)

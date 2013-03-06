@@ -15,7 +15,6 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-
 SET(PROJECT_NAME MyProjectName)
 SET(PROJECT_DESCRIPTION "")
 SET(PROJECT_URL "")
@@ -28,33 +27,37 @@ SET(CXX_DISABLE_WERROR 1)
 OPTION(BUILD_SHARED_LIBRARY "Build the shared library." TRUE)
 OPTION(INSTALL_BINARIES "Install binaries." FALSE)
 OPTION(INSTALL_COMPLETE "Install completion files." FALSE)
+OPTION(ENABLE_TEST "Enable test" FALSE)
 
 #Include directories
-include_directories (
-	${CMAKE_SOURCE_DIR}/include/
-)
+include_directories ( ${CMAKE_SOURCE_DIR}/include/ )
 
 #Set sources files
-file(GLOB MY_SRCS src/*.cpp) 
+file(GLOB ${PROJECT_NAME}_SRCS src/*.cpp) 
 
 #Set headers files
-file(GLOB MY_HDRS include/*.h)
+file(GLOB ${PROJECT_NAME}_HDRS include/*.h)
 
 #Build libray
 IF(BUILD_SHARED_LIBRARY)
-  add_library ( ${PROJECT_NAME} SHARED ${MY_SRCS})
+  add_library ( ${PROJECT_NAME} SHARED ${${PROJECT_NAME}_SRCS})
 ELSE(BUILD_SHARED_LIBRARY)
-  add_library ( ${PROJECT_NAME} ${MY_SRCS})
+  add_library ( ${PROJECT_NAME} ${${PROJECT_NAME}_SRCS})
 ENDIF(BUILD_SHARED_LIBRARY)
 #TARGET_LINK_LIBRARIES( ${PROJECT_NAME})
 
 #Build test
 LINK_DIRECTORIES( ${PROJECT_BINARY_DIR} )
+ADD_SUBDIRECTORY(bin)
 ADD_SUBDIRECTORY(test)
 
+IF(ENABLE_TEST)
+  ENABLE_TESTING()
+  ADD_SUBDIRECTORY(unitTesting)
+ENDIF(ENABLE_TEST)
+
 #Install headers
-file(GLOB Matcher_HDRS include/*.h)
-INSTALL(FILES ${MY_HDRS}
+INSTALL(FILES ${${PROJECT_NAME}_HDRS}
 	DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}/
         PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE
 )
@@ -65,10 +68,37 @@ INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJEC
         PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE
 )
 
+#Configure
+SET(${PROJECT_NAME}_CXXFLAGS "")
+
+#Configure and install LibraryConfig.cmake.in
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/LibraryConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/MatcherConfig.cmake" )
+
+INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+	DESTINATION ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}
+        PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE )
+
+#Configure and install Library.pc.cmake
+SET(install_pkg_prefix "\${prefix}")
+SET(install_pkg_exec_prefix "\${exec_prefix}")
+SET(install_pkg_libdir "\${libdir}")
+SET(install_pkg_include_dir "\${includedir}")
+SET(install_libdir_pkgconfig ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
+SET(PROJECT_DESCRIPTION "")
+SET(PROJECT_VERSION "")
+SET(PROJECT_REQUIREMENTS "")
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/Library.pc.cmake
+		 ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc )
+
+INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc
+	DESTINATION ${install_libdir_pkgconfig}	
+        PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE )
+
 #Create documentation
 FIND_PACKAGE( Doxygen )
 
 add_custom_target(doc
 ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile
 COMMENT "Generating API documentation with Doxygen" VERBATIM)
-

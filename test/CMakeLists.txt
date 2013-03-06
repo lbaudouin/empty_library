@@ -16,7 +16,5 @@
 #ADD_EXECUTABLE(Test1
 #	test1.cpp
 #)
-#TARGET_LINK_LIBRARIES( Test1 -l<name>)
-
-
+#TARGET_LINK_LIBRARIES( Test1 -l${PROJECT_NAME})
 

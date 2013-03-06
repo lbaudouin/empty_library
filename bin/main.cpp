@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/my_class.h"
+#include "my_class.h"
 
 /**
 * @author Léo Baudouin\n
