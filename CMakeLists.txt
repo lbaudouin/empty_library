@@ -1,17 +1,16 @@
 # Copyright 2013, MY NAME
 #
-# This file is part of reconstruction3D.
-# reconstruction3D is free software: you can redistribute it and/or
+# This file is part of a free software: you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public License
 # as published by the Free Software Foundation, either version 3 of
 # the License, or (at your option) any later version.
 #
-# reconstruction3D is distributed in the hope that it will be useful, but
+# This library is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # General Lesser Public License for more details.  You should have
 # received a copy of the GNU Lesser General Public License along with
-# reconstruction3D. If not, see <http://www.gnu.org/licenses/>.
+# this library. If not, see <http://www.gnu.org/licenses/>.
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
@@ -28,8 +27,15 @@ OPTION(BUILD_SHARED_LIBRARY "Build the shared library." TRUE)
 OPTION(INSTALL_BINARIES "Install binaries." FALSE)
 OPTION(ENABLE_TEST "Enable test" FALSE)
 
+#Find packages
+#FIND_PACKAGE(PackageName REQUIRED)
+
 #Include directories
 include_directories( ${CMAKE_SOURCE_DIR}/include/ )
+
+#Configure
+SET(${PROJECT_NAME}_CXXFLAGS "")
+SET(${PROJECT_NAME}_LIBS "")
 
 #Set sources files
 file(GLOB ${PROJECT_NAME}_SRCS src/*.cpp) 
@@ -91,9 +97,6 @@ IF(INSTALL_BINARIES)
   ENDIF(INSTALL_COMPLETE)
 ENDIF(INSTALL_BINARIES)
 
-#Configure
-SET(${PROJECT_NAME}_CXXFLAGS "")
-
 #Configure and install LibraryConfig.cmake.in
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/LibraryConfig.cmake.in
   "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" )
@@ -122,6 +125,8 @@ INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc
 #Create documentation
 FIND_PACKAGE( Doxygen )
 
-add_custom_target(doc
-${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile
-COMMENT "Generating API documentation with Doxygen" VERBATIM)
+IF(DOXYGEN_FOUND)
+  add_custom_target(doc
+  ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile
+  COMMENT "Generating API documentation with Doxygen" VERBATIM)
+ENDIF(DOXYGEN_FOUND)

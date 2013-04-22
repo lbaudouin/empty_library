@@ -13,17 +13,17 @@
 # software. If not, see <http://www.gnu.org/licenses/>.
 
 #TestTrue
-ADD_EXECUTABLE(TestTrue
-	TestTrue.cpp
+ADD_EXECUTABLE(TestPass
+        TestPass.cpp
 )
-TARGET_LINK_LIBRARIES( TestTrue -l${PROJECT_NAME})
+TARGET_LINK_LIBRARIES( TestPass -l${PROJECT_NAME})
 
-ADD_TEST(TestTrue TestTrue)
+ADD_TEST(TestPass TestPass)
 
 #TestFalse
-ADD_EXECUTABLE(TestFalse
-	TestFalse.cpp
+ADD_EXECUTABLE(TestFail
+        TestFail.cpp
 )
-TARGET_LINK_LIBRARIES( TestFalse -l${PROJECT_NAME})
+TARGET_LINK_LIBRARIES( TestFail -l${PROJECT_NAME})
 
-ADD_TEST(TestFalse TestFalse)
+ADD_TEST(TestFail TestFail)
