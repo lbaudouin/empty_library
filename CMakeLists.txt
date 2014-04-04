@@ -1,22 +1,25 @@
-# Copyright 2013, MY NAME
+# Copyright 2014, MY NAME
 #
-# This file is part of a free software: you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public License
+# This file is part of a free library: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation, either version 3 of
 # the License, or (at your option) any later version.
 #
 # This library is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Lesser Public License for more details.  You should have
-# received a copy of the GNU Lesser General Public License along with
+# General Public License for more details. You should have
+# received a copy of the GNU General Public License along with
 # this library. If not, see <http://www.gnu.org/licenses/>.
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+#Define the project
 SET(PROJECT_NAME MyLibraryName)
 SET(PROJECT_DESCRIPTION "")
 SET(PROJECT_URL "")
+SET(PROJECT_VERSION "0.0.1")
+SET(PROJECT_REQUIREMENTS "")
 
 SET(CUSTOM_HEADER_DIR "${PROJECT_NAME}")
 
@@ -33,9 +36,12 @@ OPTION(ENABLE_TEST "Enable test" FALSE)
 #Include directories
 include_directories( ${CMAKE_SOURCE_DIR}/include/ )
 
-#Configure
+#Configuration
 SET(${PROJECT_NAME}_CXXFLAGS "")
 SET(${PROJECT_NAME}_LIBS "")
+
+#Definition
+#add_definitions( "-DMY_DEFINITION" )
 
 #Set sources files
 file(GLOB ${PROJECT_NAME}_SRCS src/*.cpp) 
@@ -49,7 +55,7 @@ IF(BUILD_SHARED_LIBRARY)
 ELSE(BUILD_SHARED_LIBRARY)
   add_library ( ${PROJECT_NAME} ${${PROJECT_NAME}_SRCS})
 ENDIF(BUILD_SHARED_LIBRARY)
-#TARGET_LINK_LIBRARIES( ${PROJECT_NAME})
+#TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${OTHERLIBRARY_LIBS})
 LINK_DIRECTORIES( ${PROJECT_BINARY_DIR} )
 
 #Build binaries
@@ -82,23 +88,8 @@ INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}${PROJEC
         PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE
 )
 
-#Install complete
-IF(INSTALL_BINARIES)
-  OPTION(INSTALL_COMPLETE "Install completion files." FALSE)
-  IF(INSTALL_COMPLETE)
-    IF(EXISTS ${CMAKE_SOURCE_DIR}/complete)
-      SET(COMPLETION_DIR /etc/bash_completion.d/ CACHE PATH "Completion folder")
-      file(GLOB ${PROJECT_NAME}_COMPLETE complete/*.sh)
-      INSTALL(FILES ${${PROJECT_NAME}_COMPLETE}
-	DESTINATION ${COMPLETION_DIR}
-        PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE
-      )
-    ENDIF()
-  ENDIF(INSTALL_COMPLETE)
-ENDIF(INSTALL_BINARIES)
-
 #Configure and install LibraryConfig.cmake.in
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/LibraryConfig.cmake.in
+CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/LibraryConfig.cmake.in
   "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" )
 
 INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
@@ -111,9 +102,6 @@ SET(install_pkg_exec_prefix "\${exec_prefix}")
 SET(install_pkg_libdir "\${libdir}")
 SET(install_pkg_include_dir "\${includedir}")
 SET(install_libdir_pkgconfig ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
-SET(PROJECT_DESCRIPTION "")
-SET(PROJECT_VERSION "")
-SET(PROJECT_REQUIREMENTS "")
 
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/Library.pc.cmake
 		 ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc )
@@ -126,7 +114,8 @@ INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc
 FIND_PACKAGE( Doxygen )
 
 IF(DOXYGEN_FOUND)
+  CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/doc/Doxyfile.in ${PROJECT_BINARY_DIR}/doc/Doxyfile )
   add_custom_target(doc
-  ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile
+  ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/doc/Doxyfile
   COMMENT "Generating API documentation with Doxygen" VERBATIM)
 ENDIF(DOXYGEN_FOUND)
