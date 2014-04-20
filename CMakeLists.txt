@@ -33,6 +33,10 @@ OPTION(ENABLE_TEST "Enable test" FALSE)
 #Find packages
 #FIND_PACKAGE(PackageName REQUIRED)
 
+#Configuration
+SET(${PROJECT_NAME}_CXXFLAGS "")
+SET(${PROJECT_NAME}_LIBS "")
+
 #Include directories
 include_directories( ${CMAKE_SOURCE_DIR}/include/ )
 
