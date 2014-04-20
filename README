@@ -13,6 +13,13 @@
 # library. If not, see <http://www.gnu.org/licenses/>.
 
 
+Empty library instruction :
+If you just clone emty_library repository, remove the git folder and create a new one for your project :
+$ rm -rf .git
+$ git init
+$ git remote add origin git@address:project/repository.git
+You can now delete this section from the README file.
+
 Project Target
 
 Create build directory:

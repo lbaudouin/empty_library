@@ -36,10 +36,6 @@ OPTION(ENABLE_TEST "Enable test" FALSE)
 #Include directories
 include_directories( ${CMAKE_SOURCE_DIR}/include/ )
 
-#Configuration
-SET(${PROJECT_NAME}_CXXFLAGS "")
-SET(${PROJECT_NAME}_LIBS "")
-
 #Definition
 #add_definitions( "-DMY_DEFINITION" )
 
@@ -103,7 +99,7 @@ SET(install_pkg_libdir "\${libdir}")
 SET(install_pkg_include_dir "\${includedir}")
 SET(install_libdir_pkgconfig ${CMAKE_INSTALL_PREFIX}/lib/pkgconfig)
 
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/Library.pc.cmake
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/Library.pc.in
 		 ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc )
 
 INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}.pc
