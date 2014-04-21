@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/my_class.h"
+#include "my_class.h"
 
 /**
 * @author Léo Baudouin\n
@@ -8,7 +8,12 @@
 
 int main(int argc, char* argv[])
 {
-    std::cout << "Hello world !!!" << std::endl;
-    return 0;
+  MyClass myClass;
+  myClass.addString("Hello");
+  myClass.addString("world");
+  myClass.addString("!!!");
+  
+  std::cout << myClass.getString() << std::endl;
+  return 0;
 }
 

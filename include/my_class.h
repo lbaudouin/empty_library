@@ -12,10 +12,11 @@ class MyClass
 public:
     MyClass();
     ~MyClass();
-    int myFunction(int delta = 1);
+    int addString(std::string str);
+    std::string getString() const;
 
 private:
-    int _myInt;
+    std::string m_sentence;
 };
 
 #endif // MYHEADER_H

@@ -2,7 +2,7 @@
 
 /** Create MyClass object
  */
-MyClass::MyClass() : _myInt(0)
+MyClass::MyClass() : m_sentence("")
 {
 
 }
@@ -14,13 +14,20 @@ MyClass::~MyClass()
 
 }
 
-/** A very simple function
- * @param delta add delta to _myInt
- * @return Value of _myInt
+/** Add a string at the end
+ * @param word is the word to add
+ * @return Size of sentence
  */
-int MyClass::myFunction(int delta)
+int MyClass::addString(std::string word)
 {
-    _myInt += delta;
-    return _myInt;
+  if(m_sentence.size()!=0)
+    m_sentence.push_back(' ');
+  m_sentence.append(word);
+  return m_sentence.size();
+}
+
+std::string MyClass::getString() const
+{
+  return m_sentence;
 }
 
