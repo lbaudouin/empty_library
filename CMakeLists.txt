@@ -118,4 +118,7 @@ IF(DOXYGEN_FOUND)
   add_custom_target(doc
   ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/doc/Doxyfile
   COMMENT "Generating API documentation with Doxygen" VERBATIM)
+  INSTALL(DIRECTORY ${PROJECT_BINARY_DIR}/doc/html/
+	  DESTINATION ${CMAKE_INSTALL_PREFIX}/share/doc/${PROJECT_NAME}
+ 	 )
 ENDIF(DOXYGEN_FOUND)

@@ -1,4 +1,4 @@
-#include "../include/my_class.h"
+#include "my_class.h"
 
 /** Create MyClass object
  */
@@ -26,6 +26,8 @@ int MyClass::addString(std::string word)
   return m_sentence.size();
 }
 
+/** Get the sentence
+ */
 std::string MyClass::getString() const
 {
   return m_sentence;
