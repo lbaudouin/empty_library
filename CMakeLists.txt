@@ -23,12 +23,20 @@ SET(PROJECT_REQUIREMENTS "")
 
 SET(CUSTOM_HEADER_DIR "${PROJECT_NAME}")
 
+#Set default build type
+IF (NOT CMAKE_BUILD_TYPE)
+  SET(CMAKE_BUILD_TYPE Release CACHE STRING
+    "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
+    FORCE)
+ENDIF (NOT CMAKE_BUILD_TYPE)
+
+#Set CXX parameters
 SET(CXX_DISABLE_WERROR 1)
 
 #Options
 OPTION(BUILD_SHARED_LIBRARY "Build the shared library." TRUE)
+OPTION(BUILD_TEST "Build test" FALSE)
 OPTION(INSTALL_BINARIES "Install binaries." FALSE)
-OPTION(ENABLE_TEST "Enable test" FALSE)
 
 #Find packages
 #FIND_PACKAGE(PackageName REQUIRED)
@@ -69,12 +77,12 @@ IF(EXISTS ${CMAKE_SOURCE_DIR}/test/CMakeLists.txt)
 ENDIF()
 
 #Build unit testing
-IF(ENABLE_TEST)
+IF(BUILD_TEST)
   ENABLE_TESTING()
   IF(EXISTS ${CMAKE_SOURCE_DIR}/unitTesting/CMakeLists.txt)
     ADD_SUBDIRECTORY(unitTesting)
   ENDIF()
-ENDIF(ENABLE_TEST)
+ENDIF(BUILD_TEST)
 
 #Install headers
 INSTALL(FILES ${${PROJECT_NAME}_HDRS}
