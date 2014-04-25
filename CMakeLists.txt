@@ -96,6 +96,14 @@ INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
 	DESTINATION ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}
         PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE )
 
+#Configure and install LibraryConfigVersion.cmake.in
+CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/LibraryConfigVersion.cmake.in
+  "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" @ONLY)
+
+INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+	DESTINATION ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}
+        PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE )
+
 #Configure and install Library.pc.cmake
 SET(install_pkg_prefix "\${prefix}")
 SET(install_pkg_exec_prefix "\${exec_prefix}")
