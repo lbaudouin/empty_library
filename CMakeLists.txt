@@ -21,7 +21,7 @@ SET(PROJECT_URL "")
 SET(PROJECT_VERSION "0.0.1")
 SET(PROJECT_REQUIREMENTS "")
 
-SET(CUSTOM_HEADER_DIR "${PROJECT_NAME}")
+#SET(CUSTOM_HEADER_DIR "${PROJECT_NAME}")
 
 #Set default build type
 IF (NOT CMAKE_BUILD_TYPE)
@@ -36,10 +36,15 @@ SET(CXX_DISABLE_WERROR 1)
 #Options
 OPTION(BUILD_SHARED_LIBS "Build the shared library." TRUE)
 OPTION(BUILD_TEST "Build test" FALSE)
+OPTION(INSTALL_DOC "Install documentation." TRUE)
 OPTION(INSTALL_BINARIES "Install binaries." FALSE)
 
 #Find packages
 #FIND_PACKAGE( PackageName [VERSION] [EXACT] [REQUIRED] )
+#IF(PackageName_FOUND)
+#  INCLUDE_DIRECTORIES( PackageName_INCLUDE_DIRS )
+#  LINK DIRECTORIES( PackageName_LIBRARY_DIRS )
+#ENDIF(PackageName_FOUND)
 
 #Configuration
 SET(${PROJECT_NAME}_CXXFLAGS "")
@@ -132,10 +137,16 @@ FIND_PACKAGE( Doxygen )
 
 IF(DOXYGEN_FOUND)
   CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/doc/Doxyfile.in ${PROJECT_BINARY_DIR}/doc/Doxyfile )
-  add_custom_target(doc
+  #Add doc target
+  ADD_CUSTOM_TARGET(doc
   ${DOXYGEN_EXECUTABLE} ${PROJECT_BINARY_DIR}/doc/Doxyfile
   COMMENT "Generating API documentation with Doxygen" VERBATIM)
-  INSTALL(DIRECTORY ${PROJECT_BINARY_DIR}/doc/html/
-	  DESTINATION ${CMAKE_INSTALL_PREFIX}/share/doc/${PROJECT_NAME}
- 	 )
+  IF(INSTALL_DOC)
+    #Force build doc before install
+    INSTALL( CODE "EXEC_PROGRAM(${CMAKE_BUILD_TOOL}  ARGS doc)" )
+    #Install documentation
+    INSTALL(DIRECTORY ${PROJECT_BINARY_DIR}/doc/html/
+	    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/doc/${PROJECT_NAME}
+	  )
+  ENDIF(INSTALL_DOC)
 ENDIF(DOXYGEN_FOUND)
