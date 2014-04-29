@@ -37,6 +37,8 @@ win32 {
 
 TEMPLATE = lib
 
+INCLUDEPATH += include/
+
 SOURCES += src/my_class.cpp
 
 HEADERS += include/my_class.h
