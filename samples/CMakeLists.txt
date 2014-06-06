@@ -12,9 +12,9 @@
 # received a copy of the GNU General Public License along with
 # this library. If not, see <http://www.gnu.org/licenses/>.
 
-#Test1
-#ADD_EXECUTABLE(Test1
-#	test1.cpp
+#sample1
+#ADD_EXECUTABLE(sample1
+#	sample1.cpp
 #)
-#TARGET_LINK_LIBRARIES( Test1 ${PROJECT_NAME})
+#TARGET_LINK_LIBRARIES( sample1 ${PROJECT_NAME})
 

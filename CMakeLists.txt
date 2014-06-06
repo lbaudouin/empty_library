@@ -85,8 +85,8 @@ IF(EXISTS ${CMAKE_SOURCE_DIR}/bin/CMakeLists.txt)
 ENDIF()
 
 #Build tests
-IF(EXISTS ${CMAKE_SOURCE_DIR}/test/CMakeLists.txt)
-  ADD_SUBDIRECTORY(test)
+IF(EXISTS ${CMAKE_SOURCE_DIR}/samples/CMakeLists.txt)
+  ADD_SUBDIRECTORY(samples)
 ENDIF()
 
 #Build unit testing
