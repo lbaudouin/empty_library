@@ -35,10 +35,16 @@ $ cmake -DCMAKE_BUILD_TYPE=Release ..
 $ make -j 3
 
 Install:
+$ cmake -DCMAKE_INSTALL_PREFIX=<path> ..
 $ make
 $ make install
 or
 $ sudo make install
+
+Uninstall:
+$ make uninstall
+or
+$ sudo make uninstall
 
 Create documentation:
 $ make doc

@@ -15,7 +15,8 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 #Define the project
-SET(PROJECT_NAME MyLibraryName)
+PROJECT(MyLibraryName)
+
 SET(PROJECT_DESCRIPTION "")
 SET(PROJECT_URL "")
 SET(PROJECT_VERSION_MAJOR 0)
@@ -106,6 +107,16 @@ INSTALL(FILES ${${PROJECT_NAME}_HDRS}
 INSTALL(TARGETS ${PROJECT_NAME}
 	DESTINATION lib
         PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE)
+        
+#Uninstall library
+CONFIGURE_FILE(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+ 
 
 #Configure and install LibraryConfig.cmake.in
 CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/LibraryConfig.cmake.in
