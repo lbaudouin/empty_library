@@ -55,7 +55,7 @@ SET(${PROJECT_NAME}_CXXFLAGS "")
 SET(${PROJECT_NAME}_LIBS "")
 
 #Include directories
-include_directories( ${CMAKE_SOURCE_DIR}/include/ )
+INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/include/ )
 
 #Definition
 #add_definitions( "-DMY_DEFINITION" )
@@ -65,15 +65,15 @@ include_directories( ${CMAKE_SOURCE_DIR}/include/ )
 #        #endif
 
 #Set sources files
-file(GLOB ${PROJECT_NAME}_SRCS src/*.cpp)
+FILE(GLOB ${PROJECT_NAME}_SRCS src/*.cpp)
 
 #Set headers files
-file(GLOB ${PROJECT_NAME}_HDRS include/*.h)
+FILE(GLOB ${PROJECT_NAME}_HDRS include/*.h)
 
 #Build library
 #Library type (static|shared) depend on BUILD_SHARED_LIBS variable
 ADD_LIBRARY ( ${PROJECT_NAME} ${${PROJECT_NAME}_SRCS})
-#TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${OTHERLIBRARY_LIBS})
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME} ${${PROJECT_NAME}_LIBS})
 LINK_DIRECTORIES( ${PROJECT_BINARY_DIR} )
 
 SET_TARGET_PROPERTIES( ${PROJECT_NAME} PROPERTIES
@@ -114,7 +114,7 @@ CONFIGURE_FILE(
     "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
     IMMEDIATE @ONLY)
 
-add_custom_target(uninstall
+ADD_CUSTOM_TARGET(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
  
 
