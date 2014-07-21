@@ -67,9 +67,6 @@ INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/include/ )
 #Set sources files
 FILE(GLOB ${PROJECT_NAME}_SRCS src/*.cpp)
 
-#Set headers files
-FILE(GLOB ${PROJECT_NAME}_HDRS include/*.h)
-
 #Build library
 #Library type (static|shared) depend on BUILD_SHARED_LIBS variable
 ADD_LIBRARY ( ${PROJECT_NAME} ${${PROJECT_NAME}_SRCS})
@@ -99,9 +96,8 @@ IF(BUILD_TEST)
 ENDIF(BUILD_TEST)
 
 #Install headers
-INSTALL(FILES ${${PROJECT_NAME}_HDRS}
-	DESTINATION include/${PROJECT_NAME}
-        PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE)
+INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/include/
+	DESTINATION include/${PROJECT_NAME})
 
 #Install library
 INSTALL(TARGETS ${PROJECT_NAME}
