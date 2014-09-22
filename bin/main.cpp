@@ -9,9 +9,9 @@
 int main(int argc, char* argv[])
 {
   MyClass myClass;
-  myClass.addString("Hello");
-  myClass.addString("world");
-  myClass.addString("!!!");
+  myClass.addWord("Hello");
+  myClass.addWord("world");
+  myClass.addWord("!!!");
   
   std::cout << myClass.getString() << std::endl;
   return 0;

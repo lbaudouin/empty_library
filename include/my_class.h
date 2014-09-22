@@ -12,7 +12,7 @@ class MyClass
 public:
     MyClass();
     ~MyClass();
-    int addString(std::string str);
+    int addWord(std::string str);
     std::string getString() const;
 
 private:

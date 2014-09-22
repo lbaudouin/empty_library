@@ -14,11 +14,11 @@ MyClass::~MyClass()
 
 }
 
-/** Add a string at the end
+/** Add a word at the end
  * @param word is the word to add
  * @return Size of sentence
  */
-int MyClass::addString(std::string word)
+int MyClass::addWord(std::string word)
 {
   if(m_sentence.size()!=0)
     m_sentence.push_back(' ');
@@ -27,6 +27,7 @@ int MyClass::addString(std::string word)
 }
 
 /** Get the sentence
+ * @return The sentence
  */
 std::string MyClass::getString() const
 {
