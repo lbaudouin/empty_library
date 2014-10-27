@@ -15,16 +15,16 @@
 
 ########################################################################
 
-Empty library instruction :
+Empty library instructions :
 If you just clone empty_library repository, remove the git folder and create a new one for your project :
 $ rm -rf .git
 $ git init
 $ git remote add origin git@<address>:<project>/<repository>.git
 You can now delete this section from the README file.
 
-########################################################################
+Replace all "MY NAME" by your real name in all copyright headers.
 
-Project Target
+########################################################################
 
 Create build directory:
 $ mkdir build
@@ -55,6 +55,6 @@ $ make doc
 $ firefox ./doc/html/index.html &
 
 Create tests:
-$ cmake -DENABLE_TEST=ON ..
+$ cmake -DBUILD_TEST=ON ..
 $ make
 $ make test
