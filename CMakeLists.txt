@@ -42,6 +42,7 @@ IF (NOT CMAKE_BUILD_TYPE)
 ENDIF (NOT CMAKE_BUILD_TYPE)
 
 #Set CXX parameters
+set(CMAKE_CXX_STANDARD 11)
 SET(CXX_DISABLE_WERROR 1)
 
 #Options
@@ -123,7 +124,7 @@ ADD_CUSTOM_TARGET(uninstall
 
 #Configure and install LibraryConfig.cmake.in
 CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/LibraryConfig.cmake.in
-  "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" )
+  "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake" @ONLY)
 
 INSTALL(FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
 	DESTINATION share/${PROJECT_NAME}
